@@ -1,0 +1,42 @@
+{
+  "name": "assets-api",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run build && node dist/index.js",
+    "build": "tsc",
+    "dev": "nodemon dist/index.js",
+    "tasks": "gulp",
+    "test": "mocha --require ts-node/register 'src/**/*.test.ts'"
+  },
+  "author": "Ulises Santana",
+  "license": "MIT",
+  "dependencies": {
+    "@types/koa": "^2.0.39",
+    "@types/koa-bodyparser": "^3.0.25",
+    "@types/koa-router": "^7.0.23",
+    "@types/node": "^8.0.31",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.1.0",
+    "koa-router": "^7.2.1",
+    "mysql": "^2.14.1",
+    "reflect-metadata": "^0.1.10",
+    "typescript": "^2.5.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "@types/node": "^8.0.34",
+    "chai": "^4.1.2",
+    "gulp": "^3.9.1",
+    "gulp-mocha": "^3.0.1",
+    "gulp-typescript": "^3.1.1",
+    "gulp-util": "^3.0.8",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
+    "ts-node": "^3.3.0",
+    "typeorm": "^0.1.12"
+  }
+}

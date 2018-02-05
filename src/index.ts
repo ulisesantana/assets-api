@@ -16,8 +16,8 @@ createConnection({
       ],
 }).then(async connection => {
     
-    const app = new App(connection).koa;
-    app.listen(3000);
+    const app = new App(connection);
+    app.listen(+process.env.PORT || 3000);
 
     console.log("Koa application is up and running on port 3000");
 

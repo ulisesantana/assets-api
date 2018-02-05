@@ -9,7 +9,7 @@ import EmployeeRouter from './routes/Employee';
 
 export default class App {
 
-  public koa: Koa;
+  private koa: Koa;
   private connection: Connection
 
   constructor(connection) {
@@ -17,6 +17,10 @@ export default class App {
     this.koa = new Koa();
     this.middleware();
     this.routes();
+  }
+
+  public listen(port: number){
+    this.koa.listen(port);
   }
 
   private middleware(): void {

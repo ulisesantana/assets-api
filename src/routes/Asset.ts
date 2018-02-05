@@ -22,11 +22,11 @@ export default class AssetRouter {
   }
 
   private addRoutes(): void {
-    this.router.get('/', this.getAssets);
-    this.router.post('/', this.saveAsset);
-    this.router.get('/:id', this.getAssetById);
-    this.router.put('/:id', this.updateAsset);
-    this.router.delete('/:id', this.deleteAsset);
+    this.router.get('/', this.getAssets.bind(this));
+    this.router.post('/', this.saveAsset.bind(this));
+    this.router.get('/:id', this.getAssetById.bind(this));
+    this.router.put('/:id', this.updateAsset.bind(this));
+    this.router.delete('/:id', this.deleteAsset.bind(this));
   }
 
   private async getAssetById(ctx: Context) {

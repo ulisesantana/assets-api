@@ -22,11 +22,11 @@ export default class EmployeeRouter {
   }
 
   private addRoutes(): void {
-    this.router.get('/', this.getEmployees);
-    this.router.post('/', this.saveEmployee);
-    this.router.get('/:id', this.getEmployeeById);
-    this.router.put('/:id', this.updateEmployee);
-    this.router.delete('/:id', this.deleteEmployee);
+    this.router.get('/', this.getEmployees.bind(this));
+    this.router.post('/', this.saveEmployee.bind(this));
+    this.router.get('/:id', this.getEmployeeById.bind(this));
+    this.router.put('/:id', this.updateEmployee.bind(this));
+    this.router.delete('/:id', this.deleteEmployee.bind(this));
   }
 
   private async getEmployeeById(ctx: Context) {

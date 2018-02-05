@@ -10,10 +10,10 @@ export default class AssetRouter {
   constructor(connection: Connection) {
     this.repository = connection.getRepository(Asset);
     this.router = new Router({prefix:'/assets'});
-    this.addRoutes();
   }
-
+  
   public routes() {
+    this.addRoutes();
     return this.router.routes();
   }
 
@@ -25,17 +25,28 @@ export default class AssetRouter {
     this.router.get('/', this.getAssets.bind(this));
     this.router.post('/', this.saveAsset.bind(this));
     this.router.get('/:id', this.getAssetById.bind(this));
-    this.router.put('/:id', this.updateAsset.bind(this));
+    this.router.patch('/:id', this.updateAsset.bind(this));
     this.router.delete('/:id', this.deleteAsset.bind(this));
   }
 
   private async getAssetById(ctx: Context) {
-    ctx.body = 'Hola mundo!';
+    try {
+      ctx.body = await this.repository.findOneById(ctx.params.id); 
+      if (!ctx.body){
+        ctx.status = 404;
+      } 
+    } catch (err) {
+      ctx.body = err;
+      ctx.status = 500;
+    }
   }
   
   private async getAssets(ctx: Context) {
     try {
       ctx.body = await this.repository.find({}); 
+      if (ctx.body.length < 1){
+        ctx.status = 404;
+      } 
     } catch (err) {
       ctx.body = err;
       ctx.status = 500;
@@ -43,16 +54,21 @@ export default class AssetRouter {
 
   }
 
-  private saveAsset(ctx: Context) {
+  private async saveAsset(ctx: Context) {
 
   }
 
-  private updateAsset(ctx: Context) {
+  private async updateAsset(ctx: Context) {
   
   }
 
-  private deleteAsset(ctx: Context) {
-
+  private async deleteAsset(ctx: Context) {
+    try {
+      ctx.body = await this.repository.removeById(ctx.params.id);
+    } catch (err) {
+      ctx.body = err;
+      ctx.status = 500;
+    }
   }
 
 }

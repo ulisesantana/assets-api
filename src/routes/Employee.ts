@@ -1,14 +1,15 @@
 import { Context } from 'koa';
 import * as Router from "koa-router";
-import { getManager, Repository, Connection } from "typeorm";
+import { EntityManager, Connection } from "typeorm";
 import { Employee } from '../entities/Employee';
+import { Asset } from '../entities/Asset';
 
 export default class EmployeeRouter {
   public router: Router;
-  private repository: Repository<Employee>
+  private manager: EntityManager;
 
   constructor(connection: Connection) {
-    this.repository = connection.getRepository(Employee);
+    this.manager = connection.manager;
     this.router = new Router({ prefix: '/employees' });
   }
 
@@ -22,16 +23,17 @@ export default class EmployeeRouter {
   }
 
   private addRoutes(): void {
-    this.router.get('/', this.getEmployees.bind(this));
-    this.router.post('/', this.saveEmployee.bind(this));
-    this.router.get('/:id', this.getEmployeeById.bind(this));
-    this.router.patch('/:id', this.updateEmployee.bind(this));
-    this.router.delete('/:id', this.deleteEmployee.bind(this));
+    this.router.get('/', this.getAll.bind(this));
+    this.router.get('/:id', this.getById.bind(this));
+    this.router.get('/:id/assets', this.getRelatedAssets.bind(this));
+    this.router.post('/', this.save.bind(this));
+    this.router.patch('/:id', this.updateById.bind(this));
+    this.router.delete('/:id', this.deleteById.bind(this));
   }
 
-  private async getEmployeeById(ctx: Context) {
+  private async getById(ctx: Context) {
     try {
-      ctx.body = await this.repository.findOneById(ctx.params.id);
+      ctx.body = await this.manager.findOneById(Employee, ctx.params.id);
       if (!ctx.body) {
         ctx.status = 404;
       }
@@ -41,9 +43,9 @@ export default class EmployeeRouter {
     }
   }
 
-  private async getEmployees(ctx: Context) {
+  private async getAll(ctx: Context) {
     try {
-      ctx.body = await this.repository.find({});
+      ctx.body = await this.manager.find(Employee, {});
       if (ctx.body.length < 1) {
         ctx.status = 404;
       }
@@ -54,35 +56,57 @@ export default class EmployeeRouter {
 
   }
 
-  private async saveEmployee(ctx: Context) {
+  private async getRelatedAssets(ctx: Context) {
     try {
-      const employee: Employee = new Employee();
-      employee.name = ctx.request.body.name;
-      ctx.body = await this.repository.save(employee);
+      ctx.body = await this.manager.createQueryBuilder()
+        .relation(Employee, 'assets')
+        .of(ctx.params.id)
+        .loadMany();
+      if (!ctx.body) {
+        ctx.status = 404;
+      }
     } catch (err) {
       ctx.body = { message: err.message };
       ctx.status = err.status || 500;
     }
   }
 
-  private async updateEmployee(ctx: Context) {
+  private async save(ctx: Context) {
     try {
-      ctx.body = await this.repository.updateById(
-        ctx.params.id,
-        ctx.request.body
-      );
+      await this.manager.transaction(async manager => {
+        const employee: Employee = new Employee();
+        employee.name = ctx.request.body.name;
+        ctx.body = await manager.save(Employee, employee);
+      });
     } catch (err) {
       ctx.body = { message: err.message };
       ctx.status = err.status || 500;
     }
   }
-
-  private async deleteEmployee(ctx: Context) {
+  
+  private async updateById(ctx: Context) {
     try {
-      ctx.body = await this.repository.removeById(ctx.params.id);
+      await this.manager.transaction(async manager => {
+        ctx.body = await manager.updateById(
+          Employee,
+          ctx.params.id,
+          ctx.request.body
+        );
+      });
     } catch (err) {
       ctx.body = { message: err.message };
       ctx.status = err.status || 500;
+    }
+  }
+  
+  private async deleteById(ctx: Context) {
+    try {
+      await this.manager.transaction(async manager => {
+        ctx.body = await manager.removeById(Employee, ctx.params.id);
+      });
+      } catch (err) {
+        ctx.body = { message: err.message };
+        ctx.status = err.status || 500;
     }
   }
 

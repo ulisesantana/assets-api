@@ -9,8 +9,8 @@ export default class AssetRouter {
   private manager: EntityManager
 
   constructor(connection: Connection) {
-    this.router = new Router({ prefix: '/assets' });
     this.manager = connection.manager;
+    this.router = new Router({ prefix: '/assets' });
   }
 
   public routes() {

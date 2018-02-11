@@ -1,6 +1,7 @@
 import {
   Entity, Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn
+  CreateDateColumn, UpdateDateColumn,
+  ManyToOne
 } from "typeorm";
 import { Asset } from "./Asset";
 import { Employee } from "./Employee";
@@ -14,13 +15,13 @@ export class Record {
   @CreateDateColumn()
   date: Date;
 
+  @Column({default: 1})
+  fromEmployeeId: number;
+  
+  @Column({default: 1})
+  toEmployeeId: number;
+  
   @Column()
-  fromUserId: string;
-
-  @Column()
-  toUserId: string;
-
-  @Column()
-  assetId: string;
-
+  @ManyToOne(type => Asset, asset => asset.records)
+  assetId: number;
 }

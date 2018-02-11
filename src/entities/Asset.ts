@@ -1,6 +1,9 @@
 import {Entity, Column, PrimaryGeneratedColumn, 
-        CreateDateColumn, UpdateDateColumn, ManyToOne} from "typeorm";
+        CreateDateColumn, UpdateDateColumn, 
+        ManyToOne, OneToMany 
+    } from "typeorm";
 import {Employee} from "./Employee";
+import {Record} from "./Record";
 
 @Entity()
 export class Asset {
@@ -17,17 +20,29 @@ export class Asset {
     @Column()
     name: string;
 
-    @Column()
+    @Column({
+        type: 'text',
+        nullable: true
+    })
     notes: string;
 
-    @Column({default: false})
+    @Column({
+        default: false
+    })
     blocked: boolean;
 
-    @Column({unique: true})
+    @Column({
+        unique: true
+    })
     serialNumber: string;
 
-    @Column({default:1})
+    @Column({
+        default:1
+    })
     @ManyToOne(type => Employee, employee => employee.assets)
     employeeId: number;
+    
+    @OneToMany(type => Record, record => record.assetId) 
+    records: Record[];
 
 }

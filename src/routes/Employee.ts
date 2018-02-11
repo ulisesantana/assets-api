@@ -2,7 +2,6 @@ import { Context } from 'koa';
 import * as Router from "koa-router";
 import { EntityManager, Connection } from "typeorm";
 import { Employee } from '../entities/Employee';
-import { Asset } from '../entities/Asset';
 
 export default class EmployeeRouter {
   public router: Router;
@@ -102,7 +101,7 @@ export default class EmployeeRouter {
   private async deleteById(ctx: Context) {
     try {
       await this.manager.transaction(async manager => {
-        ctx.body = await manager.removeById(Employee, ctx.params.id);
+        ctx.body = await manager.deleteById(Employee, ctx.params.id);
       });
       } catch (err) {
         ctx.body = { message: err.message };

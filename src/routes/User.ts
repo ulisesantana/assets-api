@@ -77,7 +77,7 @@ export default class UserRouter {
         let id = ctx.params.id;
         let UserUpdate = ctx.request.body;
         
-        ctx.body = await this.manager.updateById(
+        ctx.body = await manager.updateById(
           User,
           id,
           UserUpdate
@@ -93,7 +93,7 @@ export default class UserRouter {
   private async deleteById(ctx: Context) {
     try {
       await this.manager.transaction(async manager => {
-        ctx.body = await this.manager.removeById(User, ctx.params.id);
+        ctx.body = await manager.deleteById(User, ctx.params.id);
       });
     } catch (err) {
       ctx.body = { message: err.message };

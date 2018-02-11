@@ -6,7 +6,7 @@ import { Record } from '../entities/Record';
 
 export default class AssetRouter {
   public router: Router;
-  private manager: EntityManager
+  private manager: EntityManager;
 
   constructor(connection: Connection) {
     this.manager = connection.manager;
@@ -85,8 +85,8 @@ export default class AssetRouter {
         let assetUpdate = ctx.request.body;
 
         if (assetUpdate.employeeId) {
-          const asset = await this.manager.findOneById(Asset, id);
-          ctx.body = await this.manager.updateById(
+          const asset = await manager.findOneById(Asset, id);
+          ctx.body = await manager.updateById(
             Asset,
             id,
             assetUpdate
@@ -116,7 +116,7 @@ export default class AssetRouter {
   private async deleteById(ctx: Context) {
     try {
       await this.manager.transaction(async manager => {
-        ctx.body = await this.manager.removeById(Asset, ctx.params.id);
+        ctx.body = await manager.deleteById(Asset, ctx.params.id);
       });
     } catch (err) {
       ctx.body = { message: err.message };

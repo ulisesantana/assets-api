@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev": "nodemon dist/index.js",
     "tasks": "gulp",
-    "test": "mocha --require ts-node/register 'src/**/*.test.ts'"
+    "test": "mocha --require ts-node/register 'test/*.test.ts'",
+    "db:update": "typeorm schema:sync && typeorm migrations:run"
   },
   "author": "Ulises Santana",
   "license": "MIT",

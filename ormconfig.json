@@ -10,10 +10,10 @@
     "dist/entities/*.js" 
   ],
   "subscribers": [
-    "dist/subscriber/*.js"
+    "dist/subscribers/*.js"
   ],
   "migrations": [
-    "dist/migration/*.js"
+    "dist/migrations/*.js"
   ],
   "cli": {
     "entitiesDir": "src/entities",

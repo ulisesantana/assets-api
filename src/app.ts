@@ -5,6 +5,8 @@ import { Connection } from 'typeorm';
 import * as bodyParser from 'koa-bodyparser';
 import AssetRouter from './routes/Asset';
 import EmployeeRouter from './routes/Employee';
+import RecordRouter from './routes/Record';
+import UserRouter from './routes/User';
 
 
 export default class App {
@@ -30,8 +32,10 @@ export default class App {
 
   private routes(): void {
     const routes = [ 
+      new EmployeeRouter(this.connection),
       new AssetRouter(this.connection),
-      new EmployeeRouter(this.connection)
+      new UserRouter(this.connection),
+      new RecordRouter(this.connection)
     ];
 
     routes.forEach(router =>{

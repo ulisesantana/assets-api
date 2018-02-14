@@ -36,10 +36,9 @@ export default class UserRouter {
 
   private async login(ctx: Context) {
     try {
-      let { email, password } = ctx.request.body;
+      const { email, password } = ctx.request.body;
       const user = await this.manager.findOne(User, { email });
-      password = await bcrypt.hash(password, 5);
-      let passwordMatch = password === user.password;
+      let passwordMatch = await bcrypt.compare(password, user.password);
       if (!user || !passwordMatch) {
         ctx.status = 401;
       } else {

@@ -7,7 +7,7 @@ export class DefaultUser1518607787176 implements MigrationInterface {
         const password = await bcrypt.hash("admin", 5);
         await queryRunner.query(
             `INSERT INTO user (id,name,email,password,admin) 
-             VALUES (1,"Administrator","admin@admin.com","${password}", 1)`,
+             VALUES (1,"Administrator","admin@admin.com","${password}",1)`,
         );
     }
 

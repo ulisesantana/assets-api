@@ -9,6 +9,8 @@
     "dev": "nodemon dist/index.js",
     "tasks": "gulp",
     "test": "mocha --require ts-node/register 'test/*.test.ts'",
+    "env": "export MYSQL_ROOT_PASSWORD=root MYSQL_ROOT_HOST=%",
+    "db:create": "npm run env && docker run --name=mysql -d -e MYSQL_ROOT_PASSWORD -e MYSQL_ROOT_HOST -p 3306:3306 mysql/mysql-server:5.7 && npm run db:update",
     "db:update": "typeorm schema:sync && typeorm migrations:run"
   },
   "author": "Ulises Santana",

@@ -13,7 +13,7 @@ createConnection({
     logging: ["query", "error"],
     entities: [
         "dist/entities/*.js" 
-      ],
+      ]
 }).then(async connection => {
     
     const app = new App(connection);

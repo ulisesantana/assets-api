@@ -42,6 +42,7 @@ export default class UserRouter {
       if (!user || !passwordMatch) {
         ctx.status = 401;
       } else {
+        delete user.password;
         ctx.body = {
           user: user,
           token: jsonwebtoken.sign({

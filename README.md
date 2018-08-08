@@ -59,3 +59,9 @@ You should save the token and send it in the header (Authorization) on every req
 ### Records
 
   - GET `/records` Get all records
+
+
+## TO DO
+
+[] Add date and property filters for routes
+[] Add pagination for routes

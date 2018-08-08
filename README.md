@@ -63,5 +63,5 @@ You should save the token and send it in the header (Authorization) on every req
 
 ## TO DO
 
-[] Add date and property filters for routes
-[] Add pagination for routes
+- [ ] Add date and property filters for routes
+- [ ] Add pagination for routes

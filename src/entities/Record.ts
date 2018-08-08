@@ -1,10 +1,8 @@
 import {
   Entity, Column, PrimaryGeneratedColumn,
-  CreateDateColumn, UpdateDateColumn,
-  ManyToOne
+  CreateDateColumn, ManyToOne
 } from "typeorm";
 import { Asset } from "./Asset";
-import { Employee } from "./Employee";
 
 @Entity()
 export class Record {

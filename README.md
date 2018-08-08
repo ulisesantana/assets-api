@@ -4,6 +4,17 @@ REST API for the assets manager.
 
 Uses TypeORM, Koa and TypeScript. 
 
+## Environment variables
+    - MYSQL_HOST || "localhost"
+    - MYSQL_PORT || 3306
+    - MYSQL_USER || "root"
+    - MYSQL_PASS || "root"
+    - MYSQL_DB || "assets_db"
+    - PORT || 3000
+    - TOKEN_SECRET || 'secret'
+
+## Routes
+
 The SQL script inside the project creates the schema and put some data. The admin user can be logged using the following JSON on the route `users/login`:
 ``` JSON
 {
@@ -14,7 +25,6 @@ The SQL script inside the project creates the schema and put some data. The admi
 
 You should save the token and send it in the header (Authorization) on every request to the API.
 
-## Routes
 
 ### Employees
 

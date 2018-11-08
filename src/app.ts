@@ -2,6 +2,8 @@ import * as Koa from "koa";
 import * as Router from "koa-router";
 import * as logger from 'koa-logger';
 import * as jwt from 'koa-jwt';
+import * as cors from '@koa/cors';
+
 import { Connection } from 'typeorm';
 import * as bodyParser from 'koa-bodyparser';
 import AssetRouter from './routes/Asset';
@@ -28,6 +30,7 @@ export default class App {
 
   private middleware(): void {
     this.koa.use(logger());
+    this.koa.use(cors);
     this.koa.use(bodyParser());
     this.koa.use(
       jwt({

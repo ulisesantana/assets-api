@@ -30,7 +30,7 @@ export default class App {
 
   private middleware(): void {
     this.koa.use(logger());
-    this.koa.use(cors);
+    this.koa.use(cors());
     this.koa.use(bodyParser());
     this.koa.use(
       jwt({
